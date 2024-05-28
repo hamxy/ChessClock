@@ -48,8 +48,8 @@ const Clock = ({
   });
 
   useEffect(() => {
-    if (time === 10000) sound.tenSecondsLeft();
-    if (time === 0) sound.loose();
+    if (time === 10000 && !isMuted) sound.tenSecondsLeft();
+    if (time === 0 && !isMuted) sound.loose();
   }, [time]);
 
   /**

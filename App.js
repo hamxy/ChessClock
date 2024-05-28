@@ -43,7 +43,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Clock
-        initialTime={900000}
+        initialTime={1000 * 20}
         upsideDown={true}
         isActive={active === "top" ? true : false}
         onPress={handleTopClock}
