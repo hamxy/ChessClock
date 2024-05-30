@@ -6,16 +6,24 @@ import {
   faPlay,
   faVolumeXmark,
   faVolumeHigh,
+  faPause,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
 
-const Bar = ({ muted, onMute }) => {
+const Bar = ({
+  muted,
+  onMute,
+  gameStarted,
+  gamePaused,
+  gameEnded,
+  onPause,
+  onReset,
+}) => {
   return (
     <View style={styles.container}>
       {/* Left column */}
       <View style={styles.left}>
         {/* Reset Clock */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onReset}>
           <FontAwesomeIcon
             size={32}
             color={"#C4DAE9"}
@@ -24,8 +32,19 @@ const Bar = ({ muted, onMute }) => {
         </TouchableOpacity>
 
         {/* Start / Pause */}
-        <TouchableOpacity>
-          <FontAwesomeIcon size={32} color={"#C4DAE9"} icon={faPlay} />
+        <TouchableOpacity
+          style={
+            gameStarted && !gameEnded
+              ? { display: "flex" }
+              : { display: "none" }
+          }
+          onPress={onPause}
+        >
+          {gamePaused ? (
+            <FontAwesomeIcon size={32} color={"#C4DAE9"} icon={faPlay} />
+          ) : (
+            <FontAwesomeIcon size={32} color={"#C4DAE9"} icon={faPause} />
+          )}
         </TouchableOpacity>
       </View>
 
@@ -75,6 +94,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 30,
+  },
+  gameStarted: {
+    opacity: 1,
   },
 });
 

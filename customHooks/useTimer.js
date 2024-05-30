@@ -15,7 +15,7 @@ const useTimer = (initialTime) => {
     return () => clearInterval(interval);
   }, [isActive, time]);
 
-  return [time, setIsActive];
+  return [time, setIsActive, setTime];
 };
 
 export default useTimer;

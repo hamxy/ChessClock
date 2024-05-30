@@ -17,11 +17,14 @@ const Clock = ({
   onPress,
   moves,
   isMuted,
+  gameStarted,
+  onGameEnd,
+  reset,
 }) => {
   /**
    * Hooks
    */
-  const [time, setIsActive] = useTimer(initialTime);
+  const [time, setIsActive, setTime] = useTimer(initialTime);
   const [moveCounter, setMoveCounter] = useState(0);
 
   /**
@@ -39,16 +42,26 @@ const Clock = ({
   /**
    * Use Efects
    */
+
+  // Set Clock to active
   useEffect(() => {
     setIsActive(isActive);
   }, [isActive]);
 
+  // Moves counter
   useEffect(() => {
     setMoveCounter(moves);
   });
 
+  // Reset clock
+  useEffect(() => {
+    setTime(initialTime);
+  }, [reset]);
+
+  // Time
   useEffect(() => {
     if (time === 10000 && !isMuted) sound.tenSecondsLeft();
+    if (time === 0) onGameEnd();
     if (time === 0 && !isMuted) sound.loose();
   }, [time]);
 
@@ -82,6 +95,7 @@ const Clock = ({
 
   const handleClick = () => {
     if (time > 0) onPress();
+    if (time > 0 && !isMuted && !gameStarted) sound.start();
     if (time > 0 && isActive && !isMuted) sound.move();
   };
 
