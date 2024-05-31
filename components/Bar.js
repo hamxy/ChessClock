@@ -7,6 +7,7 @@ import {
   faVolumeXmark,
   faVolumeHigh,
   faPause,
+  faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Bar = ({
@@ -17,13 +18,17 @@ const Bar = ({
   gameEnded,
   onPause,
   onReset,
+  onSettings,
 }) => {
   return (
     <View style={styles.container}>
       {/* Left column */}
       <View style={styles.left}>
         {/* Reset Clock */}
-        <TouchableOpacity onPress={onReset}>
+        <TouchableOpacity
+          style={gameStarted ? { display: "flex" } : { display: "none" }}
+          onPress={onReset}
+        >
           <FontAwesomeIcon
             size={32}
             color={"#C4DAE9"}
@@ -50,9 +55,9 @@ const Bar = ({
 
       {/* Right column */}
       <View style={styles.right}>
-        {/* Clock */}
-        <TouchableOpacity>
-          <FontAwesomeIcon size={32} color={"#C4DAE9"} icon={faClock} />
+        {/* Settings */}
+        <TouchableOpacity onPress={onSettings}>
+          <FontAwesomeIcon size={32} color={"#C4DAE9"} icon={faGear} />
         </TouchableOpacity>
 
         {/* Mute */}

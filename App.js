@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import Clock from "./components/Clock";
 import { useState } from "react";
 import Bar from "./components/Bar";
 import { StatusBar } from "expo-status-bar";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import SettingsModal from "./components/SettingsModal";
 
 export default function App() {
   const [active, setActive] = useState(null);
@@ -15,6 +15,8 @@ export default function App() {
   const [isMuted, setMuted] = useState(false);
   const [time, setTime] = useState(15000);
   const [reset, setReset] = useState(0);
+
+  const [modalVisible, setIsModalVisible] = useState(false);
 
   /**
    * Top Clock handler
@@ -57,6 +59,30 @@ export default function App() {
     setGamePaused(!gamePaused);
   };
 
+  /** Reset alert */
+  const resetAlert = () => {
+    if (gameStarted && !gameEnded) {
+      Alert.alert(
+        "Reset",
+        "Do you want to reset timer?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => handleReset() },
+        ],
+        {
+          cancelable: true,
+          onDismiss: () => console.log("Alert dismissed"),
+        }
+      );
+    } else {
+      handleReset();
+    }
+  };
+
   /** Reset handler */
   const handleReset = () => {
     setReset((reset) => reset + 1);
@@ -68,6 +94,12 @@ export default function App() {
     setGameEnded(false);
   };
 
+  /** Settings handler */
+  const handleSettings = () => {
+    setIsModalVisible(true);
+    console.log("modal");
+  };
+
   /** On game End */
   const onGameEnd = () => {
     setGameEnded(true);
@@ -75,6 +107,7 @@ export default function App() {
 
   return (
     <>
+      <SettingsModal />
       <StatusBar hidden={true} />
       <View style={styles.container}>
         <Clock
@@ -95,7 +128,8 @@ export default function App() {
           gameEnded={gameEnded}
           gamePaused={gamePaused}
           onPause={handlePause}
-          onReset={handleReset}
+          onReset={resetAlert}
+          onSettings={handleSettings}
         />
         <Clock
           initialTime={time}
