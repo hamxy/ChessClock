@@ -15,8 +15,7 @@ export default function App() {
   const [isMuted, setMuted] = useState(false);
   const [time, setTime] = useState(15000);
   const [reset, setReset] = useState(0);
-
-  const [modalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   /**
    * Top Clock handler
@@ -97,7 +96,11 @@ export default function App() {
   /** Settings handler */
   const handleSettings = () => {
     setIsModalVisible(true);
-    console.log("modal");
+  };
+
+  /** Close Modal */
+  const onClose = () => {
+    setIsModalVisible(false);
   };
 
   /** On game End */
@@ -107,7 +110,7 @@ export default function App() {
 
   return (
     <>
-      <SettingsModal />
+      <SettingsModal visible={isModalVisible} onClose={onClose} />
       <StatusBar hidden={true} />
       <View style={styles.container}>
         <Clock

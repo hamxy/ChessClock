@@ -2,7 +2,6 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faClockRotateLeft,
-  faClock,
   faPlay,
   faVolumeXmark,
   faVolumeHigh,
@@ -56,7 +55,14 @@ const Bar = ({
       {/* Right column */}
       <View style={styles.right}>
         {/* Settings */}
-        <TouchableOpacity onPress={onSettings}>
+        <TouchableOpacity
+          onPress={onSettings}
+          style={
+            gameStarted && !gamePaused && !gameEnded
+              ? { display: "none" }
+              : { display: "flex" }
+          }
+        >
           <FontAwesomeIcon size={32} color={"#C4DAE9"} icon={faGear} />
         </TouchableOpacity>
 
